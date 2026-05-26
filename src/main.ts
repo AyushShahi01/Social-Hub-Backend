@@ -6,6 +6,8 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors();
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -37,8 +39,9 @@ async function bootstrap() {
     },
   });
 
-  await app.listen(process.env.PORT || 3000);
-  console.log(`Application is running on: http://localhost:3000`);
-  console.log(`Swagger docs: http://localhost:3000/api/docs`);
+  const port = process.env.PORT || 3000;
+  await app.listen(port, '0.0.0.0');
+  console.log(`Application is running on: http://localhost:${port}`);
+  console.log(`Swagger docs: http://localhost:${port}/api/docs`);
 }
 void bootstrap();

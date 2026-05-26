@@ -22,11 +22,12 @@ export function getOptionalEnv(name: string, fallback: string): string {
 
 export function validateEnv(config: Record<string, unknown>) {
   const missing = [
+    'DATABASE_URL',
     'JWT_ACCESS_SECRET',
     'JWT_REFRESH_SECRET',
     // 'UPSTASH_REDIS_REST_URL',
     // 'UPSTASH_REDIS_REST_TOKEN',
-  ].filter((name) => !readEnvValue(config[name]));
+  ].filter((name) => !readEnvValue(process.env[name]));
 
   if (missing.length > 0) {
     throw new Error(
@@ -36,9 +37,9 @@ export function validateEnv(config: Record<string, unknown>) {
 
   return {
     ...config,
-    NODE_ENV: readEnvValue(config.NODE_ENV) ?? 'development',
-    PORT: readEnvValue(config.PORT) ?? '3000',
-    JWT_ACCESS_EXPIRES_IN: readEnvValue(config.JWT_ACCESS_EXPIRES_IN) ?? '15m',
-    JWT_REFRESH_EXPIRES_IN: readEnvValue(config.JWT_REFRESH_EXPIRES_IN) ?? '7d',
+    NODE_ENV: readEnvValue(process.env.NODE_ENV) ?? 'development',
+    PORT: readEnvValue(process.env.PORT) ?? '3000',
+    JWT_ACCESS_EXPIRES_IN: readEnvValue(process.env.JWT_ACCESS_EXPIRES_IN) ?? '15m',
+    JWT_REFRESH_EXPIRES_IN: readEnvValue(process.env.JWT_REFRESH_EXPIRES_IN) ?? '7d',
   };
 }

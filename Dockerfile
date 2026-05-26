@@ -12,15 +12,11 @@ RUN npm run build
 
 FROM base AS production
 ENV NODE_ENV=production
-ENV PORT=4000
 WORKDIR /app
 
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 
 COPY --from=build /app/dist ./dist
-COPY .env.example .env
-
-EXPOSE 4000
 
 CMD ["node", "dist/src/main.js"]

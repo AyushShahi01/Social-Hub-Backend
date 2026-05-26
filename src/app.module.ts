@@ -17,7 +17,8 @@ import { ChatModule } from './modules/chat/chat.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: process.env.NODE_ENV === 'production' ? undefined : '.env',
+      ignoreEnvFile: process.env.NODE_ENV === 'production',
       validate: validateEnv,
       load: [appConfig, databaseConfig, redisConfig, authConfig],
     }),
