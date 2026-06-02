@@ -16,6 +16,7 @@ import { ApiTags } from '@nestjs/swagger';
 import type { Request } from 'express';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { UsersService } from '../services/users.service';
+import { PresenceService } from '../services/presence.service';
 import { UpdateProfileDto } from '../dto/update-profile.dto';
 import { SearchUsersDto } from '../dto/search-users.dto';
 import { ApiAuthEndpoint } from '../../../common/decorators/swagger.decorators';
@@ -28,7 +29,17 @@ type AuthRequest<TUser = { id: string }> = Request & {
 @UseGuards(JwtAuthGuard)
 @Controller('api/v1/users')
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly presenceService: PresenceService
+  ) {}
+
+  @Get(':id/presence')
+  @ApiAuthEndpoint('Get user presence', { ok: 'Checks if a user is currently online based on WebSocket connections.' })
+  async getUserPresence(@Param('id') id: string) {
+    const isOnline = await this.presenceService.isOnline(id);
+    return { userId: id, isOnline };
+  }
 
   // ── Profile ────────────────────────────────────────────
   @Get('me')

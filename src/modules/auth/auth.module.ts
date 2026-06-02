@@ -10,10 +10,10 @@ import { JwtRefreshStrategy } from './strategy/jwt-refresth.strategy';
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({}),
+    JwtModule.register({ global: true }),
   ],
   controllers: [AuthController],
   providers: [AuthService, AuthRepository, JwtStrategy, JwtRefreshStrategy],
-  exports: [AuthService],
+  exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

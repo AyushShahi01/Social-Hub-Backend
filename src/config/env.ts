@@ -25,8 +25,8 @@ export function validateEnv(config: Record<string, unknown>) {
     'DATABASE_URL',
     'JWT_ACCESS_SECRET',
     'JWT_REFRESH_SECRET',
-    // 'UPSTASH_REDIS_REST_URL',
-    // 'UPSTASH_REDIS_REST_TOKEN',
+     'UPSTASH_REDIS_REST_URL',
+     'UPSTASH_REDIS_REST_TOKEN',
   ].filter((name) => !readEnvValue(config[name]));
 
   if (missing.length > 0) {

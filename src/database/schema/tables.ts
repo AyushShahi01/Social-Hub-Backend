@@ -16,3 +16,5 @@ export * from './posts/hashtags';
 export * from './posts/mentions';
 
 export * from './notifications/notifications';
+export * from './chat/chat.schema';
+
