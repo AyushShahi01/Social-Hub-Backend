@@ -176,6 +176,15 @@ export class PostsRepository {
     }
   }
 
+  async getCommentLikes(commentId: string) {
+    return this.db.query.likes.findMany({
+      where: and(
+        eq(schema.likes.commentId, commentId),
+        eq(schema.likes.targetType, 'COMMENT'),
+      ),
+    });
+  }
+
   // ── Comments ───────────────────────────────────────────
   async createComment(data: schema.NewComment) {
     const [comment] = await this.db

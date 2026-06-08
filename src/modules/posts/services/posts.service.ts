@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   ForbiddenException,
+  Inject,
 } from '@nestjs/common';
 import { PostsRepository } from '../repositories/posts.repository';
 import { UsersRepository } from '../../users/repositories/users.repository';
@@ -11,6 +12,7 @@ import { UpdatePostDto } from '../dto/update-post.dto';
 import { CreateCommentDto } from '../dto/create-comment.dto';
 import { GetPostsDto } from '../dto/get-posts.dto';
 import { NotificationsService } from '../../notifications/services/notifications.service';
+import { UPSTASH_REDIS } from '../../../infrastructure/cache/redis.module';
 
 @Injectable()
 export class PostsService {
@@ -19,6 +21,7 @@ export class PostsService {
     private usersRepository: UsersRepository,
     private feedService: FeedService,
     private notificationsService: NotificationsService,
+    @Inject(UPSTASH_REDIS) private readonly redis: any,
   ) { }
 
   // ── Helpers ────────────────────────────────────────────
@@ -46,6 +49,62 @@ export class PostsService {
     const hasMore = items.length === limit;
     const nextCursor = hasMore ? encodeCursor(items[items.length - 1]) : null;
     return { data: items, nextCursor, hasMore };
+  }
+
+  private async ensurePostLikesCached(postId: string): Promise<void> {
+    const isCached = await this.redis.exists(`post:likes:cached:${postId}`);
+    if (isCached === 1 || isCached === true) return;
+
+    const dbLikes = await this.postsRepository.getPostLikes(postId, 999999);
+    const userIds = dbLikes.map((l: any) => l.userId);
+    if (userIds.length > 0) {
+      await this.redis.sadd(`post:likes:users:${postId}`, ...userIds);
+      await this.redis.expire(`post:likes:users:${postId}`, 86400);
+    }
+    await this.redis.set(`post:likes:count:${postId}`, userIds.length.toString());
+    await this.redis.expire(`post:likes:count:${postId}`, 86400);
+    await this.redis.setex(`post:likes:cached:${postId}`, 86400, 'true');
+  }
+
+  private async ensureCommentLikesCached(commentId: string): Promise<void> {
+    const isCached = await this.redis.exists(`comment:likes:cached:${commentId}`);
+    if (isCached === 1 || isCached === true) return;
+
+    const dbLikes = await this.postsRepository.getCommentLikes(commentId);
+    const userIds = dbLikes.map((l: any) => l.userId);
+    if (userIds.length > 0) {
+      await this.redis.sadd(`comment:likes:users:${commentId}`, ...userIds);
+      await this.redis.expire(`comment:likes:users:${commentId}`, 86400);
+    }
+    await this.redis.set(`comment:likes:count:${commentId}`, userIds.length.toString());
+    await this.redis.expire(`comment:likes:count:${commentId}`, 86400);
+    await this.redis.setex(`comment:likes:cached:${commentId}`, 86400, 'true');
+  }
+
+  private async enrichPostWithCachedLikes<T extends { id: string; likeCount: number }>(post: T): Promise<T> {
+    const cachedCount = await this.redis.get(`post:likes:count:${post.id}`);
+    if (cachedCount !== null) {
+      post.likeCount = parseInt(cachedCount, 10);
+    }
+    return post;
+  }
+
+  private async enrichPostsWithCachedLikes<T extends { id: string; likeCount: number }>(posts: T[]): Promise<T[]> {
+    await Promise.all(
+      posts.map(async (post) => {
+        const cachedCount = await this.redis.get(`post:likes:count:${post.id}`);
+        if (cachedCount !== null) {
+          post.likeCount = parseInt(cachedCount, 10);
+        }
+      })
+    );
+    return posts;
+  }
+
+  async isLikedCached(userId: string, postId: string): Promise<boolean> {
+    await this.ensurePostLikesCached(postId);
+    const isMember = await this.redis.sismember(`post:likes:users:${postId}`, userId);
+    return isMember === 1 || isMember === true;
   }
 
   // ── Posts ──────────────────────────────────────────────
@@ -86,17 +145,19 @@ export class PostsService {
   }
 
   async getPost(postId: string, currentUserId: string) {
-    const post = await this.postsRepository.findPostById(postId);
-    if (!post) throw new NotFoundException('Post not found');
+    const dbPost = await this.postsRepository.findPostById(postId);
+    if (!dbPost) throw new NotFoundException('Post not found');
 
     const isBlocked = await this.usersRepository.isBlocked(
-      post.authorId,
+      dbPost.authorId,
       currentUserId,
     );
     if (isBlocked) throw new NotFoundException('Post not found');
 
+    const post = await this.enrichPostWithCachedLikes(dbPost);
+
     const [isLiked, isBookmarked] = await Promise.all([
-      this.postsRepository.isLiked(currentUserId, postId),
+      this.isLikedCached(currentUserId, postId),
       this.postsRepository.isBookmarked(currentUserId, postId),
     ]);
 
@@ -107,21 +168,36 @@ export class PostsService {
     const post = await this.postsRepository.findPostById(postId);
     if (!post) throw new NotFoundException('Post not found');
 
-    const likes = await this.postsRepository.getPostLikes(
-      postId,
-      dto.limit ?? 10,
-      dto.cursor,
-    );
+    await this.ensurePostLikesCached(postId);
 
-    const response = this.buildPaginatedResponse(
-      likes,
-      dto.limit ?? 10,
-      (like) => this.postsRepository.encodeCursor(like.createdAt),
+    const cachedUserIds: string[] = await this.redis.smembers(`post:likes:users:${postId}`);
+    if (cachedUserIds.length === 0) {
+      return { data: [], nextCursor: null, hasMore: false };
+    }
+
+    const limit = dto.limit ?? 10;
+    const cursorIndex = dto.cursor ? cachedUserIds.indexOf(dto.cursor) : -1;
+    const startIndex = cursorIndex !== -1 ? cursorIndex + 1 : 0;
+    const pageUserIds = cachedUserIds.slice(startIndex, startIndex + limit);
+
+    const users = await Promise.all(
+      pageUserIds.map((id) => this.usersRepository.findById(id)),
     );
+    const validUsers = users.filter((u): u is NonNullable<typeof u> => !!u);
+
+    const hasMore = startIndex + limit < cachedUserIds.length;
+    const nextCursor = hasMore ? pageUserIds[pageUserIds.length - 1] : null;
 
     return {
-      ...response,
-      data: response.data.map((like) => like.user),
+      data: validUsers.map((u) => ({
+        id: u.id,
+        username: u.username,
+        displayName: u.displayName,
+        avatarUrl: u.avatarUrl,
+        isVerified: u.isVerified,
+      })),
+      nextCursor,
+      hasMore,
     };
   }
 
@@ -145,7 +221,9 @@ export class PostsService {
       dto.cursor,
     );
 
-    return this.buildPaginatedResponse(posts, dto.limit ?? 10, (post) =>
+    const enrichedPosts = await this.enrichPostsWithCachedLikes(posts);
+
+    return this.buildPaginatedResponse(enrichedPosts, dto.limit ?? 10, (post) =>
       this.postsRepository.encodeCursor(post.createdAt),
     );
   }
@@ -176,7 +254,14 @@ export class PostsService {
     const post = await this.postsRepository.findPostById(postId);
     if (!post) throw new NotFoundException('Post not found');
 
-    await this.postsRepository.likePost(userId, postId);
+    await this.ensurePostLikesCached(postId);
+
+    const added = await this.redis.sadd(`post:likes:users:${postId}`, userId);
+    if (added === 1 || added === true) {
+      await this.redis.incr(`post:likes:count:${postId}`);
+      await this.redis.sadd('likes:dirty:posts', postId);
+    }
+
     await this.notificationsService.notifyLikePost(userId, post.authorId, postId);
     return { message: 'Post liked' };
   }
@@ -185,7 +270,17 @@ export class PostsService {
     const post = await this.postsRepository.findPostById(postId);
     if (!post) throw new NotFoundException('Post not found');
 
-    await this.postsRepository.unlikePost(userId, postId);
+    await this.ensurePostLikesCached(postId);
+
+    const removed = await this.redis.srem(`post:likes:users:${postId}`, userId);
+    if (removed === 1 || removed === true) {
+      const count = await this.redis.get(`post:likes:count:${postId}`);
+      if (count && parseInt(count, 10) > 0) {
+        await this.redis.decr(`post:likes:count:${postId}`);
+      }
+      await this.redis.sadd('likes:dirty:posts', postId);
+    }
+
     await this.notificationsService.notifyUnlikePost(userId, postId);
     return { message: 'Post unliked' };
   }
@@ -194,7 +289,14 @@ export class PostsService {
     const comment = await this.postsRepository.findCommentById(commentId);
     if (!comment) throw new NotFoundException('Comment not found');
 
-    await this.postsRepository.likeComment(userId, commentId);
+    await this.ensureCommentLikesCached(commentId);
+
+    const added = await this.redis.sadd(`comment:likes:users:${commentId}`, userId);
+    if (added === 1 || added === true) {
+      await this.redis.incr(`comment:likes:count:${commentId}`);
+      await this.redis.sadd('likes:dirty:comments', commentId);
+    }
+
     await this.notificationsService.notifyLikeComment(userId, comment.authorId, commentId);
     return { message: 'Comment liked' };
   }
@@ -203,7 +305,17 @@ export class PostsService {
     const comment = await this.postsRepository.findCommentById(commentId);
     if (!comment) throw new NotFoundException('Comment not found');
 
-    await this.postsRepository.unlikeComment(userId, commentId);
+    await this.ensureCommentLikesCached(commentId);
+
+    const removed = await this.redis.srem(`comment:likes:users:${commentId}`, userId);
+    if (removed === 1 || removed === true) {
+      const count = await this.redis.get(`comment:likes:count:${commentId}`);
+      if (count && parseInt(count, 10) > 0) {
+        await this.redis.decr(`comment:likes:count:${commentId}`);
+      }
+      await this.redis.sadd('likes:dirty:comments', commentId);
+    }
+
     await this.notificationsService.notifyUnlikeComment(userId, commentId);
     return { message: 'Comment unliked' };
   }
@@ -241,6 +353,15 @@ export class PostsService {
       dto.cursor,
     );
 
+    await Promise.all(
+      comments.map(async (c) => {
+        const cachedCount = await this.redis.get(`comment:likes:count:${c.id}`);
+        if (cachedCount !== null) {
+          c.likeCount = parseInt(cachedCount, 10);
+        }
+      }),
+    );
+
     return this.buildPaginatedResponse(comments, dto.limit ?? 10, (c) =>
       this.postsRepository.encodeCursor(c.createdAt),
     );
@@ -254,6 +375,15 @@ export class PostsService {
       commentId,
       dto.limit ?? 10,
       dto.cursor,
+    );
+
+    await Promise.all(
+      replies.map(async (r) => {
+        const cachedCount = await this.redis.get(`comment:likes:count:${r.id}`);
+        if (cachedCount !== null) {
+          r.likeCount = parseInt(cachedCount, 10);
+        }
+      }),
     );
 
     return this.buildPaginatedResponse(replies, dto.limit ?? 10, (r) =>
@@ -295,8 +425,11 @@ export class PostsService {
       dto.cursor,
     );
 
+    const posts = bookmarks.map((b) => b.post);
+    const enrichedPosts = await this.enrichPostsWithCachedLikes(posts);
+
     return this.buildPaginatedResponse(
-      bookmarks.map((b) => b.post),
+      enrichedPosts,
       dto.limit ?? 10,
       (post) => this.postsRepository.encodeCursor(post.createdAt),
     );
@@ -315,9 +448,12 @@ export class PostsService {
       (entry) => this.postsRepository.encodeCursor(entry.createdAt),
     );
 
+    const posts = response.data.map((entry) => entry.post);
+    const enrichedPosts = await this.enrichPostsWithCachedLikes(posts);
+
     return {
       ...response,
-      data: response.data.map((entry) => entry.post),
+      data: enrichedPosts,
     };
   }
 }

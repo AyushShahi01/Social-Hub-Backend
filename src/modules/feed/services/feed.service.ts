@@ -176,19 +176,57 @@ export class FeedService {
 
     const postIds: string[] = posts.map((p) => this.getPostId(p));
 
-    const [likedSet, bookmarkedSet] = await Promise.all([
-      this.feedRepository.getLikedStatuses(userId, postIds),
+    // 1. Get real-time liked statuses from cache/DB
+    const likedSet = new Set<string>();
+    const uncachedPostIds: string[] = [];
+
+    await Promise.all(
+      postIds.map(async (postId) => {
+        const isCached = await this.redis.exists(`post:likes:cached:${postId}`);
+        if (isCached === 1 || isCached === true) {
+          const isMember = await this.redis.sismember(`post:likes:users:${postId}`, userId);
+          if (isMember === 1 || isMember === true) {
+            likedSet.add(postId);
+          }
+        } else {
+          uncachedPostIds.push(postId);
+        }
+      }),
+    );
+
+    // Fetch bookmarked statuses and uncached liked statuses in parallel
+    const [dbLikes, bookmarkedSet] = await Promise.all([
+      uncachedPostIds.length > 0
+        ? this.feedRepository.getLikedStatuses(userId, uncachedPostIds)
+        : Promise.resolve(new Set<string>()),
       this.feedRepository.getBookmarkedStatuses(userId, postIds),
     ]);
 
-    return posts.map((item) => {
-      const postId = this.getPostId(item);
-      return {
-        ...this.normalizePost(item),
-        isLiked: likedSet.has(postId),
-        isBookmarked: bookmarkedSet.has(postId),
-      };
-    });
+    for (const postId of dbLikes) {
+      likedSet.add(postId);
+    }
+
+    // 2. Fetch real-time cached like counts for all posts
+    const enrichedPosts = await Promise.all(
+      posts.map(async (item) => {
+        const postId = this.getPostId(item);
+        const normalized = this.normalizePost(item);
+
+        // Fetch count from cache if exists
+        const cachedCount = await this.redis.get(`post:likes:count:${postId}`);
+        if (cachedCount !== null) {
+          normalized.likeCount = parseInt(cachedCount, 10);
+        }
+
+        return {
+          ...normalized,
+          isLiked: likedSet.has(postId),
+          isBookmarked: bookmarkedSet.has(postId),
+        };
+      }),
+    );
+
+    return enrichedPosts;
   }
 
   // ── Fan-out on write (called when user creates a post) ──

@@ -1,0 +1,346 @@
+{
+  "D:\\nestjs\\Social-Hub-Backend\\drizzle.config.ts": {
+    "mtime": 1778814364.3813708,
+    "hash": "3bb3878bc836a0f5b0cfdb07da8ae009"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\eslint.config.mjs": {
+    "mtime": 1778814364.3813708,
+    "hash": "069d66f3fd2af0b03d917cf51a1f4c42"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\drizzle\\0000_tiny_devos.sql": {
+    "mtime": 1779769933.4416916,
+    "hash": "9382de7149309d207268e0f2630f34fc"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\app.controller.spec.ts": {
+    "mtime": 1778814364.3864217,
+    "hash": "e91fed2ee35431d60d1adbf1d5739b83"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\app.controller.ts": {
+    "mtime": 1778814364.3874202,
+    "hash": "ae15d1c5a85e6ebfad68b7193766dfb5"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\app.module.ts": {
+    "mtime": 1779769933.4507604,
+    "hash": "9f2b611feea2756b6d0ea7b748a55c3a"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\app.service.ts": {
+    "mtime": 1778814364.3874202,
+    "hash": "08e985e831bca61f6be89c5c2ecef2fa"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\main.ts": {
+    "mtime": 1780382081.8751304,
+    "hash": "e566007fcc2060522d684b3aa39e0c5d"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\common\\decorators\\swagger.decorators.ts": {
+    "mtime": 1778814364.388695,
+    "hash": "13eb739c7a27e583b43b9cdc24985fd5"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\config\\app.config.ts": {
+    "mtime": 1778814364.388695,
+    "hash": "4acad1813ccf8b5983645abfc3efa898"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\config\\auth.config.ts": {
+    "mtime": 1779771261.6337564,
+    "hash": "85f5e402179cd2231d84390572008e92"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\config\\database.config.ts": {
+    "mtime": 1779769933.4517522,
+    "hash": "bcbfa03ba7ab25e8a83f038b37bd2b78"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\config\\env.ts": {
+    "mtime": 1780381778.128276,
+    "hash": "873c536d2ad846fee22c1bbd26cfb63a"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\config\\index.ts": {
+    "mtime": 1778814364.3902013,
+    "hash": "cc43f8fd266bc62d773ef3e9bdb95f1c"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\config\\redis.config.ts": {
+    "mtime": 1779769933.4527538,
+    "hash": "01d80c5b652f787109403631ae9b6b2b"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\database.module.ts": {
+    "mtime": 1779769933.4527538,
+    "hash": "a49c8d88f0b12e16781b7f38b38e6cef"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\index.ts": {
+    "mtime": 1779349275.3402112,
+    "hash": "6b9491b415d17a2038fa2cec6fdb4283"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\relations.ts": {
+    "mtime": 1779349275.3475733,
+    "hash": "228726fe853a87092b65b0b2beefdc2c"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\tables.ts": {
+    "mtime": 1780381778.129821,
+    "hash": "2c810cadd363fc4defc61b172c073234"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\auth\\email-verifications.ts": {
+    "mtime": 1779349275.3382108,
+    "hash": "465fbd74527eecdc792e86961f9d9d06"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\auth\\sessions.ts": {
+    "mtime": 1779349275.3392117,
+    "hash": "53ba385e1a78b640d5a42138167ad475"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\auth\\users.ts": {
+    "mtime": 1779349275.3392117,
+    "hash": "d86443e063b8af2adbed1b37c50f15fb"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\chat\\chat.schema.ts": {
+    "mtime": 1779769933.453798,
+    "hash": "8d7537c5cef51cc26ab552e7f32352dc"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\notifications\\notifications.ts": {
+    "mtime": 1779349275.344069,
+    "hash": "eb0e31d3665b8d09f71468b433e244c6"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\posts\\bookmarks.ts": {
+    "mtime": 1779349275.3450308,
+    "hash": "f2b29757b57323f7741deb4eb4460778"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\posts\\comments.ts": {
+    "mtime": 1779349275.3450308,
+    "hash": "3fdf6dcd317158071792e6e440a9d1a7"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\posts\\hashtags.ts": {
+    "mtime": 1779349275.3460462,
+    "hash": "8a9bc6f0ff857ab2abb4f62e6c9cd316"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\posts\\likes.ts": {
+    "mtime": 1779349275.3460462,
+    "hash": "32c2206be2708d9cfe61305334ff4374"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\posts\\mentions.ts": {
+    "mtime": 1779349275.3460462,
+    "hash": "15d7a39c9aee7f5184432a8f3da5e718"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\posts\\posts.ts": {
+    "mtime": 1779349275.3460462,
+    "hash": "93db0b8cea9aa2c79e9c783b713ce6dd"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\social\\blocked-users.ts": {
+    "mtime": 1779349275.3475733,
+    "hash": "c5c8797c8d05ffc271d70e40c2037036"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\social\\feed-items.ts": {
+    "mtime": 1779349275.3481271,
+    "hash": "8c2894705d14b7c07261ccf209d0dc17"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\social\\follows.ts": {
+    "mtime": 1779349275.3481271,
+    "hash": "3f624d5b58035231b4b6ff1d48cfb2a8"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\database\\schema\\social\\muted-users.ts": {
+    "mtime": 1779349275.3481271,
+    "hash": "0e7e332a3d7cdc86d5c2be1a3c359829"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\infrastructure\\cache\\redis-io.adapter.ts": {
+    "mtime": 1780381778.129821,
+    "hash": "38aefe586a91a6fe1f5344690f321de8"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\infrastructure\\cache\\redis.module.ts": {
+    "mtime": 1779769933.4548023,
+    "hash": "538af6cac2a3109e4bea9a157de6c772"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\auth\\auth.module.ts": {
+    "mtime": 1780381778.1318479,
+    "hash": "28e8b060c2a4a748fbec37df1a190f9f"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\auth\\controllers\\auth.controller.ts": {
+    "mtime": 1778814364.394296,
+    "hash": "1b201f6928e729c5130421f1b855d300"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\auth\\dto\\login.dto.ts": {
+    "mtime": 1778814364.3963077,
+    "hash": "a0886ee91e46988b4e5f093ba6c09442"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\auth\\dto\\register.dto.ts": {
+    "mtime": 1778814364.3963077,
+    "hash": "2b03c899a9f9dd5b9555549b42134fa3"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\auth\\guards\\jwt-auth.guard.ts": {
+    "mtime": 1778814364.3973136,
+    "hash": "c0c992948ec2737126972c8f1abfc6a6"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\auth\\guards\\jwt-refresh.guard.ts": {
+    "mtime": 1778814364.3973136,
+    "hash": "fb3843261342d9c51baa4e921cbd9809"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\auth\\interfaces\\jwt-payload.interface.ts": {
+    "mtime": 1778814364.3985193,
+    "hash": "9ab2d9ff2ee967be436df84e4e5335c5"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\auth\\middleware\\ws-jwt.middleware.ts": {
+    "mtime": 1780381778.1318479,
+    "hash": "62349f1bd8bd325d0962989e354e55f7"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\auth\\repositories\\auth.repository.ts": {
+    "mtime": 1779349275.350499,
+    "hash": "7772dc55e8a70dc20b6ec39af42f6aea"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\auth\\services\\auth.service.ts": {
+    "mtime": 1778814364.4005275,
+    "hash": "cc58debf05a0b49bbbb9bcec92da15ca"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\auth\\strategy\\jwt-refresth.strategy.ts": {
+    "mtime": 1778814364.4005275,
+    "hash": "fa425e6cf25be6176f51d7d47f33f808"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\auth\\strategy\\jwt.strategy.ts": {
+    "mtime": 1778814364.4015312,
+    "hash": "5f967d8c848f9b05bea5c920ced364b6"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\chat\\chat.module.ts": {
+    "mtime": 1780381778.1333642,
+    "hash": "7ef49c5514f566144d0c9c79076477fe"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\chat\\controllers\\chat.controller.spec.ts": {
+    "mtime": 1780381778.1343687,
+    "hash": "be3a627ebcb1d99b742824457969146c"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\chat\\controllers\\chat.controller.ts": {
+    "mtime": 1780381778.1343687,
+    "hash": "6373141a4df6bb476a563bb8f0cc0c85"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\chat\\gateways\\chat.gateway.ts": {
+    "mtime": 1780381778.1353762,
+    "hash": "9c44329323062e5a4cce32e22079e97b"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\chat\\services\\chat\\chat.service.spec.ts": {
+    "mtime": 1780381778.1363745,
+    "hash": "ff650eacb3bc1c029f7cf3a844865ad2"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\chat\\services\\chat\\chat.service.ts": {
+    "mtime": 1780381778.1363745,
+    "hash": "cf0488064f375df54d80daa45bc0241e"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\feed\\feed.module.ts": {
+    "mtime": 1779349275.3525112,
+    "hash": "96765e2475a0514d4d010889845fb771"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\feed\\controllers\\feed.controller.ts": {
+    "mtime": 1779349275.3525112,
+    "hash": "baa996ab6f9dec9074007bc354a70e10"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\feed\\dto\\get-feed.dto.ts": {
+    "mtime": 1779349275.3525112,
+    "hash": "e5c7f4f86a5256b6ed3e23d78246bb7c"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\feed\\repositories\\feed.repository.ts": {
+    "mtime": 1779349275.3535297,
+    "hash": "f8658f3872fc077961a32be8a4954588"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\feed\\services\\feed.service.ts": {
+    "mtime": 1779769933.459509,
+    "hash": "b5a8103bdb41ef710173ccafaaa4debd"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\notifications\\notifications.module.ts": {
+    "mtime": 1780381778.1373746,
+    "hash": "444c83779efcc5800442503ab411f258"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\notifications\\controllers\\notifications.controller.ts": {
+    "mtime": 1779349275.3545282,
+    "hash": "0bd235a4ae070b19770b906141e651b8"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\notifications\\dto\\get-notifications.dto.ts": {
+    "mtime": 1779349275.3545282,
+    "hash": "7addad615b00fcae989b7bc98e985521"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\notifications\\gateways\\notifications.gateway.ts": {
+    "mtime": 1780381778.1373746,
+    "hash": "6387a2ec520643598fdc0f30181043e0"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\notifications\\repositories\\notification.repository.ts": {
+    "mtime": 1779349275.3555322,
+    "hash": "48422f002f36f8f6c6f564f91e7c386c"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\notifications\\services\\notifications.service.ts": {
+    "mtime": 1779349275.3565304,
+    "hash": "b71448e4d1bd684273512cafe7f5b8fc"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\posts\\posts.module.ts": {
+    "mtime": 1779349275.358046,
+    "hash": "fd5848af80092ab7dfa0a689f99f465b"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\posts\\controllers\\posts.controller.ts": {
+    "mtime": 1779349275.3565304,
+    "hash": "0a5a64d98405562f7d930494a504202b"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\posts\\dto\\create-comment.dto.ts": {
+    "mtime": 1779349275.3575282,
+    "hash": "b369696472ff895f2ae0749fedd73f8f"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\posts\\dto\\create-post.dto.ts": {
+    "mtime": 1779349275.358046,
+    "hash": "78916103a87bbe9d9abb1389d89f8b38"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\posts\\dto\\get-posts.dto.ts": {
+    "mtime": 1779349275.358046,
+    "hash": "1d14d294664d7e897cfc8c94adf7bba0"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\posts\\dto\\update-post.dto.ts": {
+    "mtime": 1779349275.358046,
+    "hash": "fd2d226531644976c3681e3c0c9a76eb"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\posts\\repositories\\posts.repository.ts": {
+    "mtime": 1779349275.3590527,
+    "hash": "4bae51c33008b5395db1bb66b9229d4d"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\posts\\services\\posts.service.ts": {
+    "mtime": 1779349275.3590527,
+    "hash": "e6aeee5a2a4e585644b27db9bd07a36d"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\users\\users.module.ts": {
+    "mtime": 1780381778.1398716,
+    "hash": "6406e159d02444a1d7b9d78e313123b3"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\users\\controllers\\users.controller.ts": {
+    "mtime": 1780381778.1383758,
+    "hash": "5208c83d11472c38b2993f1c002ae588"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\users\\dto\\search-users.dto.ts": {
+    "mtime": 1779349275.3605714,
+    "hash": "d612cbb90267141994b14de9dc1baaf9"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\users\\dto\\update-profile.dto.ts": {
+    "mtime": 1779349275.3605714,
+    "hash": "e00c4c169407dd9ffeca7e9a9c521645"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\users\\gateways\\presence.gateway.ts": {
+    "mtime": 1780381778.1383758,
+    "hash": "3aac529a8c08ce6855a74a4fb1d1f9fb"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\users\\repositories\\users.repository.ts": {
+    "mtime": 1779349275.3615875,
+    "hash": "2fabd9bef61ff158f42f0a94d43b40c7"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\users\\services\\presence.service.ts": {
+    "mtime": 1780381778.1398716,
+    "hash": "775403f04a59ee70a436c6c80b6e8a1f"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\src\\modules\\users\\services\\users.service.ts": {
+    "mtime": 1779349275.3615875,
+    "hash": "9c6d38cffcbc6980993bbef2ff9e3d8e"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\test\\app.e2e-spec.ts": {
+    "mtime": 1778814364.4015312,
+    "hash": "668094bf268e0395763312620e5638e8"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\test\\chat.e2e-spec.ts": {
+    "mtime": 1780381778.1413803,
+    "hash": "18e7ea6b26bf4928ba88e4cb1f10d06d"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\docker-compose.yml": {
+    "mtime": 1779769933.4401853,
+    "hash": "2d5d495246fae18a3701be3d5470eee7"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\README.md": {
+    "mtime": 1778814364.3774889,
+    "hash": "ec3ff084bfcff19b7170305b62db72d2"
+  },
+  "D:\\nestjs\\Social-Hub-Backend\\docs\\claude.md": {
+    "mtime": 1779349275.337196,
+    "hash": "e7a0b1f993261de6d44d22d9b6f5f91a"
+  }
+}

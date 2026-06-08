@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { PostsController } from './controllers/posts.controller';
 import { PostsService } from './services/posts.service';
 import { PostsRepository } from './repositories/posts.repository';
+import { LikesSyncService } from './services/likes-sync.service';
 import { UsersModule } from '../users/users.module';
 import { FeedModule } from '../feed/feed.module';
 import { NotificationsModule } from '../notifications/notifications.module';
@@ -9,7 +10,7 @@ import { NotificationsModule } from '../notifications/notifications.module';
 @Module({
   imports: [UsersModule, FeedModule, NotificationsModule],
   controllers: [PostsController],
-  providers: [PostsService, PostsRepository],
+  providers: [PostsService, PostsRepository, LikesSyncService],
   exports: [PostsService, PostsRepository],
 })
 export class PostsModule { }
