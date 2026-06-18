@@ -1,5 +1,5 @@
 import { registerAs } from '@nestjs/config';
-import { getOptionalEnv, getRequiredEnv } from './env';
+import { getOptionalEnv } from './env';
 
 export default registerAs('auth', () => ({
   jwtAccessSecret: getOptionalEnv('JWT_ACCESS_SECRET', ''),
